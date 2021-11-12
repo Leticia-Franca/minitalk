@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:41 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/11 03:58:12 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/11 21:55:27 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,21 @@
 void hand_sigs(int signo, siginfo_t *info, void *context)
 {
 	static int pid; //pra receber da struct info;
-	static char *msg;
+	//static char *msg;
 	static int counter;
+	static char caract;
+	static int multiple;
 
-	counter = -1;
-	msg = malloc(sizeof(char) * 8 + 1); //caracter '\0'
+	//counter = -1;
+	//msg = malloc(sizeof(char) * 8 + 1); //caracter '\0'
+	caract = 0;
+	multiple = 0;
 	if (info->si_pid)
 		pid = info->si_pid;
-	while (counter++ < 8)
+	if (signo == SIGUSR1)
+		caract += 1 << (7 - multiple);
+	multiple++;
+	/*while (counter++ < 8)
 	{
 		if (signo == SIGUSR1)
 			msg[counter] = '1';
@@ -40,6 +47,12 @@ void hand_sigs(int signo, siginfo_t *info, void *context)
 		//essa funcao de conversao vai ter um retorno ESPECIFICO pra quando imprimir o '\0',
 		//e dai a gente para baseado nisso!
 		counter = -1;
+	}*/
+	if (multiple == 8)
+	{
+		ft_putchar_adapt(caract);
+		multiple = 0;
+		caract = 0;
 	}
 	if (kill(pid, SIGUSR1) == -1)
 		//funcao pra erro (pra enviar de volta SIGUSR2 e exitar (1))
@@ -48,14 +61,14 @@ void hand_sigs(int signo, siginfo_t *info, void *context)
 int main(void)
 {
 	struct sigaction sa2;
-	sigset_t block_mask;
+	//sigset_t block_mask;
 	int pid; //muda pra tipo pid_t?
 	
 	sa2.sa_flags = SA_SIGINFO;
 	sa2.sa_sigaction = &hand_sigs;
-	sigaddset(&block_mask, SIGINT); //procurar saber esse sinal
-	sigaddset(&block_mask, SIGQUIT); //procurar saber esse sinal
-	sa2.sa_mask = block_mask;
+	//sigaddset(&block_mask, SIGINT); //procurar saber esse sinal
+	//sigaddset(&block_mask, SIGQUIT); //procurar saber esse sinal
+	//sa2.sa_mask = block_mask;
 
 	sigaction(SIGUSR1, &sa2, NULL);
 	sigaction(SIGUSR2, &sa2, NULL);
