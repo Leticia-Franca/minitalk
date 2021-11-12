@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:32 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/11 21:12:33 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/11 21:55:32 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-static int str_to_bit (pid_t pid, char *str) //criar string static pra conter a mensagem da PRIMEIRA VEZ, e NAS PROXIMAS, só ir alterando
+static int str_to_bit (char *pid, char *str)
 {
 	static char *msg;
 	static pid_t pid_s;
@@ -28,10 +28,9 @@ static int str_to_bit (pid_t pid, char *str) //criar string static pra conter a 
 	i = -1;
 	j = -1;
 	no_invert = 1 << 7;
-	pid_s = pid;
+	pid_s = ft_itoa(pid);
 	if (str)
 		msg = ft_strdup(str);
-	//dar return(0) quando terminar de enviar um bit;
 	while (i++ < (ft_strlen(msg) - 1)
 	{
 		while (++j < 8)
@@ -39,19 +38,18 @@ static int str_to_bit (pid_t pid, char *str) //criar string static pra conter a 
 			if (msg[i] & no_invert)
 			{
 				if (kill(pid_s, SIGUSR1) == -1)
-					ft_error(msg); //esvaziar msg e exitar com FAILURE (1?)
+					ft_error(&msg); //esvaziar msg e exitar com FAILURE (1?)
 			}
 			else
 				if (kill(pid_s, SIGUSR2) == -1)
-					ft_error(msg);
+					ft_error(&msg);
 		}
 		if (j == 8)
 			j = -1;
-		return (0); //mandou 8 bits (1 caracter) // retorna 1 quando MANDAR TODA A MENSAGEM
 	}
 	//enviar os 8 bits de \0 (SIGUSR2)
-	//esvaziar msg
-	//retornar 1 pra informar à handler_sig q terminou de enviar a string
+	free(msg);
+	return (1);
 }
 
 static void handler_sig(int signum)
@@ -59,19 +57,15 @@ static void handler_sig(int signum)
 	int ret;
 
 	ret = 0;
-	if (signum == SIGUSR1) //quer dizer que deve mandar o proximo bit (foi bem sucedido)
-	{
+	if (signum == SIGUSR1)
 		ret = str_to_bit(0, 0);
-	}
-	else if (signum == SIGUSR2) //deu erro, tem que terminar o processo e esvaziar a string??
+	else if (signum == SIGUSR2)
 	{
-
+		ft_putstr("mensagem de erro blablabla");
+		exit(1);
 	}
-	if (ret == 1) //mandou a mensagem toda, daí tem que mandar os 8 '0' de bit do caracter \0
-	{
-
-	}
-	//if ret == 1 --> quando terminar de enviar tudo... exit(SUCESS);
+	if (ret == 1) //mandou a mensagem toda
+		exit(0);
 }
 
 int main(int argc, char *argv[])
@@ -85,7 +79,8 @@ int main(int argc, char *argv[])
 	
 	if (argc != 3) || (argv[1] != )//str nao for numerico
 	{
-		//mensagem de erro e exit(1) --> (função pra isso?)
+		ft_putstr("mensagem de erro\n");
+		exit(1);
 	}
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
