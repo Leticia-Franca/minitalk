@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:41 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/11 21:55:27 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/11 22:19:38 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,15 @@
 #include <signal.h>
 #include <sys/types.h>
 
+void ft_putchar_adapt(char a)
+{
+	if (a == 0)
+		a = '\n';
+	write(1, &a, 1);
+}
+
 void hand_sigs(int signo, siginfo_t *info, void *context)
 {
-	static int pid; //pra receber da struct info;
 	//static char *msg;
 	static int counter;
 	static char caract;
@@ -28,8 +34,6 @@ void hand_sigs(int signo, siginfo_t *info, void *context)
 	//msg = malloc(sizeof(char) * 8 + 1); //caracter '\0'
 	caract = 0;
 	multiple = 0;
-	if (info->si_pid)
-		pid = info->si_pid;
 	if (signo == SIGUSR1)
 		caract += 1 << (7 - multiple);
 	multiple++;
@@ -54,7 +58,7 @@ void hand_sigs(int signo, siginfo_t *info, void *context)
 		multiple = 0;
 		caract = 0;
 	}
-	if (kill(pid, SIGUSR1) == -1)
+	if (kill(info->si_pid, SIGUSR1) == -1)
 		//funcao pra erro (pra enviar de volta SIGUSR2 e exitar (1))
 }
 
