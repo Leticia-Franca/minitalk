@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:41 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/10 23:57:51 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/11 03:58:12 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void hand_sigs(int signo, siginfo_t *info, void *context)
 		//e dai a gente para baseado nisso!
 		counter = -1;
 	}
+	if (kill(pid, SIGUSR1) == -1)
+		//funcao pra erro (pra enviar de volta SIGUSR2 e exitar (1))
 }
 
 int main(void)
