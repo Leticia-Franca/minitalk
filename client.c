@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/10 23:35:32 by lfranca-          #+#    #+#             */
+/*   Updated: 2021/11/11 21:12:33 by lfranca-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,17 +38,20 @@ static int str_to_bit (pid_t pid, char *str) //criar string static pra conter a 
 		{
 			if (msg[i] & no_invert)
 			{
-				kill(pid_s, SIGUSR1); //tem que dar erro se o resultado for -1
+				if (kill(pid_s, SIGUSR1) == -1)
+					ft_error(msg); //esvaziar msg e exitar com FAILURE (1?)
 			}
 			else
-				kill(pid_s, SIGUSR2); //tem que dar erro se o resultado for -1
+				if (kill(pid_s, SIGUSR2) == -1)
+					ft_error(msg);
 		}
-		j = -1;
+		if (j == 8)
+			j = -1;
 		return (0); //mandou 8 bits (1 caracter) // retorna 1 quando MANDAR TODA A MENSAGEM
 	}
 	//enviar os 8 bits de \0 (SIGUSR2)
 	//esvaziar msg
-	//retornar 1
+	//retornar 1 pra informar à handler_sig q terminou de enviar a string
 }
 
 static void handler_sig(int signum)
