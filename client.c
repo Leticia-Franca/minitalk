@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:32 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/11 21:55:32 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/11 22:11:02 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 #include <signal.h>
 #include <string.h>
 #include <sys/types.h>
+
+void ft_error (char **to_free)
+{
+	free (*to_free);
+	exit(EXIT_FAILURE);
+}
 
 static int str_to_bit (char *pid, char *str)
 {
@@ -31,14 +37,14 @@ static int str_to_bit (char *pid, char *str)
 	pid_s = ft_itoa(pid);
 	if (str)
 		msg = ft_strdup(str);
-	while (i++ < (ft_strlen(msg) - 1)
+	while (i++ < (ft_strlen(msg) - 1))
 	{
 		while (++j < 8)
 		{
 			if (msg[i] & no_invert)
 			{
 				if (kill(pid_s, SIGUSR1) == -1)
-					ft_error(&msg); //esvaziar msg e exitar com FAILURE (1?)
+					ft_error(&msg);
 			}
 			else
 				if (kill(pid_s, SIGUSR2) == -1)
@@ -61,11 +67,11 @@ static void handler_sig(int signum)
 		ret = str_to_bit(0, 0);
 	else if (signum == SIGUSR2)
 	{
-		ft_putstr("mensagem de erro blablabla");
-		exit(1);
+		ft_putstr("Sinal de erro\n");
+		exit(EXIT_FAILURE);
 	}
 	if (ret == 1) //mandou a mensagem toda
-		exit(0);
+		exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char *argv[])
@@ -77,10 +83,10 @@ int main(int argc, char *argv[])
 	sa.sa_mask = block_mask;
 	sa.sa_flags = 0;
 	
-	if (argc != 3) || (argv[1] != )//str nao for numerico
+	if (argc != 3) || (!ft_isnumber(argv[1]))//str nao for numerico
 	{
-		ft_putstr("mensagem de erro\n");
-		exit(1);
+		ft_putstr("Erro: qtdade de argumentos errada ou falha no PID\n");
+		exit(EXIT_FAILURE);
 	}
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
