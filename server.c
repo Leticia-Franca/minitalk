@@ -6,15 +6,11 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:41 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/11 22:19:38 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/15 08:15:15 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/types.h>
+#include "server.h"
 
 void ft_putchar_adapt(char a)
 {
@@ -59,7 +55,10 @@ void hand_sigs(int signo, siginfo_t *info, void *context)
 		caract = 0;
 	}
 	if (kill(info->si_pid, SIGUSR1) == -1)
-		//funcao pra erro (pra enviar de volta SIGUSR2 e exitar (1))
+	{
+		kill(info->si_pid, SIGUSR2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 int main(void)
