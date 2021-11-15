@@ -6,16 +6,11 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:32 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/11 22:11:02 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/15 08:15:04 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <string.h>
-#include <sys/types.h>
+#include "client.h"
 
 void ft_error (char **to_free)
 {
@@ -49,9 +44,12 @@ static int str_to_bit (char *pid, char *str)
 			else
 				if (kill(pid_s, SIGUSR2) == -1)
 					ft_error(&msg);
+			return (0); //termina o flow do processo (vai pro pause()) a cada envio de sinal
 		}
 		if (j == 8)
 			j = -1;
+		//return(0); //só colocou o return(0) aqui pra interromper ANTES de chegar ao free e ao return(1)??
+		//podia em vez disso colocar embaixo: if (msg[i] == '\0' daí dar free e retornar 1)
 	}
 	//enviar os 8 bits de \0 (SIGUSR2)
 	free(msg);
@@ -83,7 +81,7 @@ int main(int argc, char *argv[])
 	sa.sa_mask = block_mask;
 	sa.sa_flags = 0;
 	
-	if (argc != 3) || (!ft_isnumber(argv[1]))//str nao for numerico
+	if (argc != 3) || (!ft_isalpha(argv[1]))
 	{
 		ft_putstr("Erro: qtdade de argumentos errada ou falha no PID\n");
 		exit(EXIT_FAILURE);
