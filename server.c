@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 23:35:41 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/15 08:15:15 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/15 12:13:12 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int main(void)
 	//sigaddset(&block_mask, SIGINT); //procurar saber esse sinal
 	//sigaddset(&block_mask, SIGQUIT); //procurar saber esse sinal
 	//sa2.sa_mask = block_mask;
-
+	
 	sigaction(SIGUSR1, &sa2, NULL);
 	sigaction(SIGUSR2, &sa2, NULL);
 	pid = getpid();
