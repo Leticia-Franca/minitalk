@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_limpo.c                                     :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 18:18:58 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/30 03:06:48 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/30 20:56:37 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	main(void)
 
 	sa2.sa_flags = SA_SIGINFO;
 	sigemptyset(&block_mask);
+	sigaddset(&block_mask, SIGINT);
+	sigaddset(&block_mask, SIGQUIT);
 	sa2.sa_sigaction = &hand_sigs;
 	sa2.sa_mask = block_mask;
 	sigaction(SIGUSR1, &sa2, NULL);
