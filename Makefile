@@ -6,14 +6,14 @@
 #    By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/17 03:08:49 by lfranca-          #+#    #+#              #
-#    Updated: 2021/11/30 17:44:47 by lfranca-         ###   ########.fr        #
+#    Updated: 2021/11/30 20:42:51 by lfranca-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = server
 CLIENT = client
 CC		=	gcc
-FLAGS	=	-Wall -Wextra -Werror
+FLAGS	=	-Wall -Wextra -Werror -D_POSIX_C_SOURCE=199309L
 LFT		=	./libft/libft.a
 INC		=	-I ./inc -I ./libft
 LIB		=	-L ./libft/ -lft
