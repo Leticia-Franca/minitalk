@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/28 18:20:10 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/11/30 20:31:58 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/30 20:56:40 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_error(char **to_free)
 {
 	free (*to_free);
+	ft_putstr_fd("Error! Client couldn't send signal to server!\n", 2);
 	exit(EXIT_FAILURE);
 }
 
@@ -33,14 +34,14 @@ static int	send_signal(int pid, char **msg, int desl, int *x)
 	return (0);
 }
 
-static int	str_to_bit(char *pid, char *str)
+static int	bit_by_bit(char *pid, char *str)
 {
 	static char		*msg;
 	static int		pid_s;
 	static int		i;
 	static int		j;
 
-	if (str && pid)
+	if (str != 0 && pid != 0)
 	{
 		pid_s = ft_atoi(pid);
 		i = 0;
@@ -67,10 +68,10 @@ static void	handler_sig(int signum)
 
 	ret = 0;
 	if (signum == SIGUSR1)
-		ret = str_to_bit(0, 0);
+		ret = bit_by_bit(0, 0);
 	else if (signum == SIGUSR2)
 	{
-		ft_putstr_fd("Erro: Client interrompido por server\n", 2);
+		ft_putstr_fd("Error: Client interrupted by server\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (ret == 1)
@@ -88,12 +89,12 @@ int	main(int argc, char *argv[])
 	act.sa_flags = 0;
 	if ((argc != 3) || (!ft_atoi(argv[1])))
 	{
-		ft_putstr_fd("Erro! Tente: [executavel] [número PID] [string]\n", 2);
+		ft_putstr_fd("Error! Try: [executable] [PID number] [string]\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
-	str_to_bit(argv[1], argv[2]);
+	bit_by_bit(argv[1], argv[2]);
 	while (1)
 		pause();
 }
