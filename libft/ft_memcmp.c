@@ -6,7 +6,7 @@
 /*   By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 22:15:33 by lfranca-          #+#    #+#             */
-/*   Updated: 2021/06/09 21:26:31 by lfranca-         ###   ########.fr       */
+/*   Updated: 2021/11/29 03:12:59 by lfranca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	i = 0;
 	p = (unsigned char *)s1;
 	q = (unsigned char *)s2;
-	 if ((unsigned char *)s1 == (unsigned char *)s2)
+	if ((unsigned char *)s1 == (unsigned char *)s2)
 		return (0);
 	while (i < n)
 	{
