@@ -6,7 +6,7 @@
 #    By: lfranca- <lfranca-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/17 03:08:49 by lfranca-          #+#    #+#              #
-#    Updated: 2021/11/24 14:27:33 by lfranca-         ###   ########.fr        #
+#    Updated: 2021/11/30 17:44:47 by lfranca-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LFT		=	./libft/libft.a
 INC		=	-I ./inc -I ./libft
 LIB		=	-L ./libft/ -lft
 SRC_CLIENT		=	client.c 
-SRC_SERVER		=	server.c 
+SRC_SERVER		=	server.c
 OBJ_SERVER		=	$(SRC_SERVER:.c=.o)
 OBJ_CLIENT		=	$(SRC_CLIENT:.c=.o)
 
